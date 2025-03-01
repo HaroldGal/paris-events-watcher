@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: bronze_paris_events
+    description: "Paris events with fields caster"
+    columns:
+      - name: event_id
+        description: "Technical identifiant of the event"
+        data_tests:
+          - unique
+          - not_null
+      - name: event_title
+        description: "Title of the event"
+        data_tests:
+          - unique
+          - not_null
+      - name: event_url
+        description: "Url link to event information"
+      - name: event_date_start
+        description: "Start date of the event"
+        data_tests:
+          - not_null
+      - name: event_date_end
+        description: "End date of the event"
+        data_tests:
+          - not_null
+      - name: event_lead_text
+        description: "Short description of the event"
+        data_tests:
+          - not_null
+      - name: event_description
+        description: "HTML code of the event description"

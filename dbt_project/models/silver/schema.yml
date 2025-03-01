@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: silver_paris_events_enriched
+    description: "Paris events enriched with cleaned text, duration, and categorization"
+    columns:
+      - name: event_id
+        description: "Technical identifiant of the event"
+        data_tests:
+          - unique
+          - not_null
+      - name: event_title
+        description: "Title of the event"
+      - name: event_start
+        description: "Start timestamp of the event"
+      - name: event_end
+        description: "End timestamp of the event"
+      - name: event_duration
+        description: "Event duration in days"
+      - name: clean_description
+        description: "Event description without HTML"
+      - name: is_weekend
+        description: "TRUE if the event starts on a weekend"
+        data_tests:
+          - accepted_values:
+              values: [TRUE, FALSE]
+      - name: event_status
+        description: "Event state (upcoming, ongoing, past)"
+        data_tests:
+          - accepted_values:
+              values: ['upcoming', 'ongoing', 'past']
