@@ -13,9 +13,9 @@ models:
         description: "Url link to event information"
       - name: event_title
         description: "Title of the event"
-      - name: event_start
+      - name: event_date_start
         description: "Start timestamp of the event"
-      - name: event_end
+      - name: event_date_end
         description: "End timestamp of the event"
       - name: event_duration
         description: "Event duration in days"
