@@ -53,10 +53,30 @@ This project builds a data pipeline to collect, transform, and visualize **Paris
 dbt run
 ```
 
-#### **Airflow: Launch the pipeline** # IN PROGRESS
+#### Setting Up Apache Airflow with Docker
+
+We use **Docker Compose** to deploy **Apache Airflow** for orchestrating our data pipeline.
+
+### 📌 **Prerequisites**
+- Install **[Docker](https://www.docker.com/get-started)**.
+- Install **[Docker Compose](https://docs.docker.com/compose/install/)**.
+
+### 🔧 **Setup Instructions**
+- Follow **[the official Airflow Docker tutorial](https://airflow.apache.org/docs/apache-airflow/2.1.1/start/docker.html)**.
+
+# Intialize Airlow environment
 ```bash
-airflow dags trigger airflow_pipeline
+docker-compose up airflow-init
 ```
+
+# Start Airflow
+```bash
+docker-compose up -d
+```
+
+# Access the Web UI at http://localhost:8080
+- Username: airflow
+- Password: airflow
 
 ---
 
