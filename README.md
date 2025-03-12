@@ -61,16 +61,7 @@ We use **Docker Compose** to deploy **Apache Airflow** for orchestrating our dat
 
 ##### 🔧 **Setup Instructions**
 - Follow **[the official Airflow Docker tutorial](https://airflow.apache.org/docs/apache-airflow/2.1.1/start/docker.html)**.
-
-##### Intialize Airlow environment
-```bash
-docker-compose up airflow-init
-```
-
-##### Start Airflow
-```bash
-docker-compose up -d
-```
+- Use the start.sh file to launch docker easily
 
 ##### Access the Web UI at http://localhost:8080
 - Username: airflow
