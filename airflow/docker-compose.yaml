@@ -45,8 +45,10 @@ version: '3'
 x-airflow-common:
   &airflow-common
   image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.1.1}
+  build: .  # Replace static image by our Dockerfile
   environment:
-    &airflow-common-env
+    &airflow-common-envenvironment:
+    AIRFLOW__CORE__LOAD_EXAMPLES: "False"
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
     AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
     AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@postgres/airflow
@@ -60,6 +62,8 @@ x-airflow-common:
     - ./dags:/opt/airflow/dags
     - ./logs:/opt/airflow/logs
     - ./plugins:/opt/airflow/plugins
+    - ../dbt_project:/opt/dbt_project
+    - ~/.dbt:/opt/dbt/.dbt
   user: "${AIRFLOW_UID:-50000}:${AIRFLOW_GID:-50000}"
   depends_on:
     redis:
