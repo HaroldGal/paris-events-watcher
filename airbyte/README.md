@@ -14,3 +14,7 @@
    - **Destination:** Your data warehouse (e.g., BigQuery)  
 4. Configure manual sync because it will be triggered by airflow.
 5. Save the connection.
+
+#### **3 Authentification from airflow**
+1. Use conenctionId of your created conenction to link your airflow step
+2. Update your airflow Admin connection with your credentials of airbyte (in settings.Application)

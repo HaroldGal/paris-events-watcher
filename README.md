@@ -67,6 +67,28 @@ We use **Docker Compose** to deploy **Apache Airflow** for orchestrating our dat
 - Username: airflow
 - Password: airflow
 
+#### Setting Up Airbyte with abctl
+
+Follow the airbyte repository which includes a README.
+
+#### Link Airbyte and Airflow
+
+As Airbyte and Airflow are on 2 differents isolated dockers, we have to setup a network to let airflow trigger Airbyte.
+
+```bash
+docker network create myNetwork
+docker network connect myNetwork airflow-airflow-webserver-1
+docker network connect myNetwork airbyte-abctl-control-plane
+```
+
+Then you can create your connection in Administrator panel on airflow UI.
+
+- connection Type: Airbyte
+- host: http://airbyte-abctl-control-plane/api/public/v1/
+- Client ID: Get in Airbyte.settings.application
+- Client Secret: Get in Airbyte.settings.application
+
+
 ---
 
 ## 🛠 **Author & Contact**
