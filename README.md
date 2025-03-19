@@ -77,8 +77,13 @@ As Airbyte and Airflow are on 2 differents isolated dockers, we have to setup a 
 
 ```bash
 docker network create myNetwork
-docker network connect myNetwork airflow-airflow-webserver-1
 docker network connect myNetwork airbyte-abctl-control-plane
+docker network connect myNetwork airflow-airflow-webserver-1
+docker network connect myNetwork airflow-postgres-1
+docker network connect myNetwork airflow-redis-1
+docker network connect myNetwork airflow-triggerer-1
+docker network connect myNetwork airflow-scheduler-1
+docker network connect myNetwork airbyte-worker-1
 ```
 
 Then you can create your connection in Administrator panel on airflow UI.
