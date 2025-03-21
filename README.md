@@ -10,6 +10,34 @@ This project builds a data pipeline to collect, transform, and visualize **Paris
 
 ## 🏗️ **Pipeline Architecture**
 
+```mermaid
+flowchart TD
+    BigQueryLanding[BigQuery landing table]
+    Transformations[BigQuery transformations]
+    goldTable[Gold Table]
+    LookerStudio[Looker dashboards]
+
+    subgraph airflowDag["Airflow DAG"]
+        subgraph airbyteTrigger["Trigger airbyte"]
+	        A[Trigger Airbyte Sync]
+	        B[Airbyte custom HTTP connector]
+	        C[Airbyte custom HTTP connector]
+	    end    
+        subgraph runDbt["Run dbt"]
+	        D[Queries bronze]
+	        E[Queries silver]
+	        F[Queries gold]
+	    end    
+    end
+
+    airbyteTrigger --> runDbt
+    A --> B --> C -.-> BigQueryLanding
+    D --> E --> F
+    runDbt --> Transformations
+	BigQueryLanding --> Transformations --> goldTable
+	LookerStudio -.-> goldTable
+```
+
 1️⃣ **Data Ingestion**:
    - Source: **Paris OpenData API** ([opendata.paris.fr](https://opendata.paris.fr/explore/dataset/que-faire-a-paris-/information/?disjunctive.access_type&disjunctive.price_type&disjunctive.deaf&disjunctive.blind&disjunctive.pmr&disjunctive.address_city&disjunctive.address_zipcode&disjunctive.address_name&disjunctive.tags&disjunctive.programs&dataChart=eyJxdWVyaWVzIjpbeyJjaGFydHMiOlt7InR5cGUiOiJjb2x1bW4iLCJmdW5jIjoiQ09VTlQiLCJ5QXhpcyI6InBtciIsInNjaWVudGlmaWNEaXNwbGF5Ijp0cnVlLCJjb2xvciI6IiNGRkNEMDAifV0sInhBeGlzIjoidXBkYXRlZF9hdCIsIm1heHBvaW50cyI6IiIsInRpbWVzY2FsZSI6ImRheSIsInNvcnQiOiIiLCJjb25maWciOnsiZGF0YXNldCI6InF1ZS1mYWlyZS1hLXBhcmlzLSIsIm9wdGlvbnMiOnsiZGlzanVuY3RpdmUuYWNjZXNzX3R5cGUiOnRydWUsImRpc2p1bmN0aXZlLnByaWNlX3R5cGUiOnRydWUsImRpc2p1bmN0aXZlLmRlYWYiOnRydWUsImRpc2p1bmN0aXZlLmJsaW5kIjp0cnVlLCJkaXNqdW5jdGl2ZS5wbXIiOnRydWUsImRpc2p1bmN0aXZlLmFkZHJlc3NfY2l0eSI6dHJ1ZSwiZGlzanVuY3RpdmUuYWRkcmVzc196aXBjb2RlIjp0cnVlLCJkaXNqdW5jdGl2ZS5hZGRyZXNzX25hbWUiOnRydWUsImRpc2p1bmN0aXZlLnRhZ3MiOnRydWUsImRpc2p1bmN0aXZlLnByb2dyYW1zIjp0cnVlfX19XSwiZGlzcGxheUxlZ2VuZCI6dHJ1ZSwiYWxpZ25Nb250aCI6dHJ1ZX0%3D&basemap=jawg.dark&location=3,27.12049,1.64636))
    - Tool: **Airbyte** (HTTP API custom connector)
@@ -81,9 +109,9 @@ docker network connect myNetwork airbyte-abctl-control-plane
 docker network connect myNetwork airflow-airflow-webserver-1
 docker network connect myNetwork airflow-postgres-1
 docker network connect myNetwork airflow-redis-1
-docker network connect myNetwork airflow-triggerer-1
-docker network connect myNetwork airflow-scheduler-1
-docker network connect myNetwork airbyte-worker-1
+docker network connect myNetwork airflow-airflow-triggerer-1
+docker network connect myNetwork airflow-airflow-scheduler-1
+docker network connect myNetwork airflow-airflow-worker-1
 ```
 
 Then you can create your connection in Administrator panel on airflow UI.
