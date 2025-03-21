@@ -7,20 +7,18 @@ CONNECTION_FETCHING_ID = "ad4ce0f8-1513-4118-af19-f3441db885b4"
 default_args = {
     "owner": "airflow",
     "depends_on_past": False,
-    "start_date": datetime(2025, 3, 10),  # Date de départ
+    "start_date": datetime(2025, 3, 10),
     "retries": 1,
     "retry_delay": timedelta(minutes=5),
 }
 
-# Définition du DAG
 dag = DAG(
     "airbyte_run",
     default_args=default_args,
-    schedule_interval="0 6 * * *",  # Exécution quotidienne à 6h du matin
+    schedule_interval=None,
     catchup=False,
 )
 
-# Tâche pour exécuter dbt run
 airbyte_run = AirbyteTriggerSyncOperator(
     task_id="run_airbyte_fetch",
     airbyte_conn_id="airbyte_conn",
@@ -29,5 +27,4 @@ airbyte_run = AirbyteTriggerSyncOperator(
     dag=dag,
 )
 
-# Définition du workflow
 airbyte_run
