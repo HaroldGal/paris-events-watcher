@@ -20,7 +20,6 @@ flowchart TD
     subgraph airflowDag["Airflow DAG"]
         subgraph airbyteTrigger["Trigger airbyte"]
 	        A[Trigger Airbyte Sync]
-	        B[Airbyte custom HTTP connector]
 	        C[Airbyte custom HTTP connector]
 	    end    
         subgraph runDbt["Run dbt"]
@@ -31,7 +30,7 @@ flowchart TD
     end
 
     airbyteTrigger --> runDbt
-    A --> B --> C -.-> BigQueryLanding
+    A --> C -.-> BigQueryLanding
     D --> E --> F
     runDbt --> Transformations
 	BigQueryLanding --> Transformations --> goldTable
@@ -49,7 +48,7 @@ flowchart TD
    - Cleaning and structuring into **Silver layer**
    - Building a **Gold layer** for analytical insights
 
-3️⃣ **Automation & Orchestration**: # IN PROGRESS
+3️⃣ **Automation & Orchestration**:
    - Tool: **Apache Airflow**
    - Scheduled daily ingestion and transformation
    - Automated dbt execution post-ingestion
