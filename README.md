@@ -44,26 +44,24 @@ flowchart TD
 
 2️⃣ **Data Transformation**:
    - Tool: **dbt (Data Build Tool)**
-   - Casting and testing into **Bronze layer**
-   - Cleaning and structuring into **Silver layer**
-   - Building a **Gold layer** for analytical insights
+   - Bronze layer: casting and testing
+   - Silver layer: cleaning and structuring
+   - Gold layer: analytical insights
 
 3️⃣ **Automation & Orchestration**:
    - Tool: **Apache Airflow**
    - Scheduled daily ingestion and transformation
-   - Automated dbt execution post-ingestion
+   - Automated dbt execution after ingestion
 
 ---
 
 ## 📂 **Repository Structure**
 ```
-📂 project_root/
-├── airbytes/       # in progress
-├── airflow/        # in progress
-├── models/
-│   ├── bronze/
-│   ├── silver/
-│   ├── gold/
+project_root/
+├── airbyte/        # Airbyte connectors
+├── airflow/        # Airflow DAGs and config
+├── dbt_project/    # dbt models (bronze, silver, gold)
+├── deployment/     # Deployment scripts and Docker config
 ├── README.md
 ```
 
@@ -74,8 +72,22 @@ flowchart TD
 - Google Cloud Platform (**BigQuery**)
 - **dbt** installed and configured for BigQuery
 - **Looker Studio** for data visualization
-- Install **[Docker](https://www.docker.com/get-started)**.
-- Install **[Docker Compose](https://docs.docker.com/compose/install/)**.
+- **[Docker](https://www.docker.com/get-started)** (recommended: v24+)
+- **[Docker Compose](https://docs.docker.com/compose/install/)** (recommended: v2.20+)
+
+#### Example dbt configuration (`profiles.yml`)
+```yaml
+paris_events:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account
+      project: your-gcp-project
+      dataset: your_dataset
+      threads: 1
+      keyfile: /path/to/your/service-account.json
+```
 
 #### **dbt: Run Transformations**
 ```bash
@@ -83,24 +95,21 @@ dbt run
 ```
 
 #### Setting Up Apache Airflow with Docker
+We use **Docker Compose** to deploy **Apache Airflow** for orchestrating the data pipeline.
 
-We use **Docker Compose** to deploy **Apache Airflow** for orchestrating our data pipeline.
-
-##### 🔧 **Setup Instructions**
-- Follow **[the official Airflow Docker tutorial](https://airflow.apache.org/docs/apache-airflow/2.1.1/start/docker.html)**.
-- Use the start.sh file to launch docker easily
+##### Setup Instructions
+- Follow the [official Airflow Docker tutorial](https://airflow.apache.org/docs/apache-airflow/2.1.1/start/docker.html).
+- Use the `start.sh` file to launch Docker easily.
 
 ##### Access the Web UI at http://localhost:8080
 - Username: airflow
 - Password: airflow
 
 #### Setting Up Airbyte with abctl
+See the Airbyte repository and its README for details.
 
-Follow the airbyte repository which includes a README.
-
-#### Link Airbyte and Airflow
-
-As Airbyte and Airflow are on 2 differents isolated dockers, we have to setup a network to let airflow trigger Airbyte.
+#### Linking Airbyte and Airflow
+Since Airbyte and Airflow run in two isolated Docker containers, you need to create a Docker network so Airflow can trigger Airbyte.
 
 ```bash
 docker network create myNetwork
@@ -113,18 +122,24 @@ docker network connect myNetwork airflow-airflow-scheduler-1
 docker network connect myNetwork airflow-airflow-worker-1
 ```
 
-Then you can create your connection in Administrator panel on airflow UI.
-
-- connection Type: Airbyte
-- host: http://airbyte-abctl-control-plane/api/public/v1/
-- Client ID: Get in Airbyte.settings.application
-- Client Secret: Get in Airbyte.settings.application
-
+Then, create the connection in the Airflow Admin UI:
+- Connection Type: Airbyte
+- Host: http://airbyte-abctl-control-plane/api/public/v1/
+- Client ID: Available in Airbyte.settings.application
+- Client Secret: Available in Airbyte.settings.application
 
 ---
 
-## 🛠 **Author & Contact**
-👤 **Name**: Harold Gallice
+## 🛠 Troubleshooting
+- **Network issues between containers**: Ensure all containers are connected to the same Docker network (`myNetwork`).
+- **BigQuery authentication error**: Check the service account file path in `profiles.yml` and permissions.
+- **Airbyte not responding to Airflow**: Verify the URL and credentials in the Airbyte connection in Airflow.
+- **dbt run fails**: Run `dbt debug` to diagnose configuration issues.
+
+---
+
+## 🛠 Author & Contact
+👤 **Name**: Harold Gallice  
 📧 **Contact**: haroldgallice@gmail.com  
 💼 **LinkedIn**: [Harold](https://www.linkedin.com/in/harold-gallice-43656212a/)
 
