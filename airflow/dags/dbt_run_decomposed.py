@@ -4,10 +4,11 @@ If you use docker, it is a volume connected to the host machine, ~/.dbt (see doc
 These credentials path should be coherent with the path on the docker container.
 """
 
+import json
+import os
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 from datetime import datetime, timedelta
-import json
 
 CONNECTION_FETCHING_ID = "ad4ce0f8-1513-4118-af19-f3441db885b4"
 dbt_path = "/opt/dbt_project"
