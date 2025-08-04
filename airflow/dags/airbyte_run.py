@@ -1,6 +1,8 @@
 from airflow import DAG
 from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator
 from datetime import datetime, timedelta
+from airflow.operators.trigger_dagrun import TriggerDagRunOperator
+
 
 CONNECTION_FETCHING_ID = "ad4ce0f8-1513-4118-af19-f3441db885b4"
 
@@ -26,4 +28,12 @@ airbyte_run = AirbyteTriggerSyncOperator(
     dag=dag,
 )
 
-airbyte_run
+dbt_trigger = TriggerDagRunOperator(
+    task_id="trigger_dbt_run",
+    trigger_dag_id="dbt_run_pipeline_decomposed",
+    wait_for_completion=False,
+    reset_dag_run=True,
+    dag=dag,
+)
+
+airbyte_run >> dbt_trigger
