@@ -3,13 +3,12 @@ from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperat
 from datetime import datetime, timedelta
 
 CONNECTION_FETCHING_ID = "ad4ce0f8-1513-4118-af19-f3441db885b4"
-# Configuration générale du DAG
+
 default_args = {
     "owner": "airflow",
     "depends_on_past": False,
     "start_date": datetime(2025, 3, 10),
-    "retries": 1,
-    "retry_delay": timedelta(minutes=5),
+    "retries": 0
 }
 
 dag = DAG(

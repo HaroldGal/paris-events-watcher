@@ -1,3 +1,9 @@
+"""
+Take care about your creadentials in the --profiles-dir /opt/dbt_project/.dbt
+If you use docker, it is a volume connected to the host machine, ~/.dbt (see dockerfile-compose of airflow)
+These credentials path should be coherent with the path on the docker container.
+"""
+
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 from datetime import datetime, timedelta
