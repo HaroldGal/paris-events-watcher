@@ -34,8 +34,6 @@ models:
           - accepted_values:
               values: ['upcoming', 'ongoing', 'past']
 
-
-
   - name: silver_events_by_day
     description: "Serialisation of events by day"
     columns:
@@ -48,6 +46,35 @@ models:
         description: "Date of the event"
       - name: is_weekend
         description: "TRUE if the date in on a weekend"
+        data_tests:
+          - accepted_values:
+              values: [TRUE, FALSE]
+
+  - name: silver_exploring_view
+    description: "Normalized view: one row per event per day, joining enriched event info with daily breakdown"
+    columns:
+      - name: event_id
+        description: "Technical identifier of the event (from silver_events_by_day)"
+      - name: event_date
+        description: "Date of the event (from silver_events_by_day)"
+      - name: event_title
+        description: "Title of the event (from silver_paris_events_enriched)"
+      - name: event_url
+        description: "URL link to event information (from silver_paris_events_enriched)"
+      - name: event_date_start
+        description: "Start timestamp of the event (from silver_paris_events_enriched)"
+      - name: event_date_end
+        description: "End timestamp of the event (from silver_paris_events_enriched)"
+      - name: event_duration
+        description: "Event duration in days (from silver_paris_events_enriched)"
+      - name: event_lead_text
+        description: "Short description of the event (from silver_paris_events_enriched)"
+      - name: clean_description
+        description: "Event description without HTML (from silver_paris_events_enriched)"
+      - name: event_status
+        description: "Event state (upcoming, ongoing, past) (from silver_paris_events_enriched)"
+      - name: is_weekend
+        description: "TRUE if the date is a weekend (from silver_events_by_day)"
         data_tests:
           - accepted_values:
               values: [TRUE, FALSE]
