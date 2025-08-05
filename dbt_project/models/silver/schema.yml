@@ -33,3 +33,21 @@ models:
         data_tests:
           - accepted_values:
               values: ['upcoming', 'ongoing', 'past']
+
+
+
+  - name: silver_events_by_day
+    description: "Serialisation of events by day"
+    columns:
+      - name: event_id
+        description: "Technical identifiant of the event"
+        data_tests:
+          - unique
+          - not_null
+      - name: date
+        description: "Date of the event"
+      - name: is_weekend
+        description: "TRUE if the date in on a weekend"
+        data_tests:
+          - accepted_values:
+              values: [TRUE, FALSE]
