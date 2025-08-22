@@ -1,26 +1,6 @@
 version: 2
 
 models:
-  - name: gold_paris_events_daily
-    description: "Daily viewed of the current events exploded table"
-    columns:
-      - name: event_id
-        description: "Technical identifiant of the event"
-        data_tests:
-          - unique
-          - not_null
-      - name: event_date
-        description: "Date where the event takes place"
-      - name: event_title
-        description: "Title of the event"
-      - name: event_url
-        description: "Url link to event information"
-      - name: event_duration
-        description: "Event duration in days"
-      - name: event_lead_text
-        description: "Short description of the event"
-      - name: clean_description
-        description: "Event description without HTML"
   - name: gold_paris_events_overview
     description: "Overview stats of the events in the system"
     columns:
