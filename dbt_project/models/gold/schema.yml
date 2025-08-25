@@ -12,7 +12,7 @@ models:
         description: "Count of ongoing events"
       - name: past_events
         description: "Count of past events"
-  - name: gold_paris_events_7_next_days
+  - name: gold_paris_events_finishing_in_7_next_days
     description: "Windows on next 7 days of the events"
     columns:
       - name: event_id
