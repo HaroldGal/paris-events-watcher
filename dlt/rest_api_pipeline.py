@@ -26,7 +26,6 @@ def load_paris_events_data() -> None:
                     "endpoint": {
                         "path": "json",
                         "params": {
-                            "limit": 1000,
                             "select": "id,url,title,lead_text,description,date_start,date_end",
                             "where": 'updated_at > "2025-01-01T00:00:00+00:00"',
                         },
@@ -43,4 +42,3 @@ def load_paris_events_data() -> None:
 
 if __name__ == "__main__":
     load_paris_events_data()
-    pass
