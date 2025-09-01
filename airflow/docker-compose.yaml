@@ -79,8 +79,7 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
     - ../dbt_project:/opt/dbt_project
     - ~/.dbt:/opt/dbt_project/.dbt
-    - ../dlt:/opt/dlt
-    - ~/dlt/.dbt:/opt/dlt/.dlt
+    - ../dlt/.dlt:/opt/airflow/.dlt
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
