@@ -1,5 +1,6 @@
 import dlt
 from dlt.sources.rest_api import rest_api_source
+from dlt.sources.helpers.rest_client.paginators import OffsetPaginator 
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
@@ -18,14 +19,12 @@ def load_paris_events_data() -> None:
     paris_events_data_source = rest_api_source(
         {
             "client": {
-                "base_url": "https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/que-faire-a-paris-/exports/"
-            },
-            "resource_defaults": {
-                "endpoint": {
-                    "params": {
-                        "limit": 1000,
-                    },
-                },
+                "base_url": "https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/que-faire-a-paris-/exports/",
+                "paginator": OffsetPaginator(
+                    limit=1000,
+                    total_path=None
+                )
+
             },
             "resources": [
                 {
